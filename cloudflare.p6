@@ -9,13 +9,13 @@ sub MAIN (Str $action, Str $item?, Str :$zone, Str :$key, Str :$email) {
   die "Auth email not set" unless $email;
   die "Zone not set" unless $zone;
 
-  my $dnsrecord = API::Cloudflare::DNSRecord.new(
+  my $api = API::Cloudflare.new(
     :key($key),
     :email($email),
-    :zone($zone)
   );
 
-  my $res = $dnsrecord."$action"($item);
+  my $res = $api.resource('DNSRecord')."$action"($item);
+  #my $res = $dnsrecord."$action"($item);
   use Data::Dump;
   say Dump($res);
 }
